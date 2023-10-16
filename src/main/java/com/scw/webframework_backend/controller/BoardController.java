@@ -16,20 +16,15 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/item/list")
-    public ResponseEntity<?> boardFindAll() {
 
-        BoardAllDto board = boardService.findBoard();
+    @GetMapping(value = {"/board/list/{name}", "/board/list"})
+    public ResponseEntity<?> boardFindAll(@PathVariable(required = false) String name) {
+
+        BoardAllDto board = boardService.findBoard(name);
 
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
 
-    @PostMapping("/item/join")
-    public ResponseEntity<?> itemSave(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) LoginDto loginMember) {
-
-//        if (loginMember == null) {
-//            return new ResponseEntity<>("로그인 되지 않은 회원입니다.", HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<String>("게시글이 등록되었습니다.", HttpStatus.OK);
-    }
+    
 
 }

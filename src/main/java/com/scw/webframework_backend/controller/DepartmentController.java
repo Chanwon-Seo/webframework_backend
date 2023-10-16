@@ -1,6 +1,7 @@
 package com.scw.webframework_backend.controller;
 
 import com.scw.webframework_backend.domain.Department;
+import com.scw.webframework_backend.form.DepartmentFormDto;
 import com.scw.webframework_backend.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,30 +9,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/department")
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class DepartmentController {
 
     private final DepartmentService departmentService;
 
-    @GetMapping("/{name}")
-    public ResponseEntity<Object> departmentNameHome(@PathVariable String name) {
+    @GetMapping("/department/{name}")
+    public ResponseEntity<?> departmentInfo(@PathVariable String name) {
 
-        Department findDepartment = departmentService.findAll(name);
-        return new ResponseEntity<>(findDepartment, HttpStatus.OK);
-    }
+        Department findDepartment = departmentService.findDepartment(name);
 
-    @GetMapping("/add")
-    public ResponseEntity<String> departmentAdd() {
-        log.info("학과 추가");
-        departmentService.add();
+        DepartmentFormDto departmentFormDto = new DepartmentFormDto(findDepartment, "/department/board/list/" + name);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(departmentFormDto, HttpStatus.OK);
     }
 
 }

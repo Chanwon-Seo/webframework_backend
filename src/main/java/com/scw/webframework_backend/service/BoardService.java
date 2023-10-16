@@ -1,8 +1,10 @@
 package com.scw.webframework_backend.service;
 
 import com.scw.webframework_backend.domain.Board;
+import com.scw.webframework_backend.domain.Department;
 import com.scw.webframework_backend.form.BoardAllDto;
 import com.scw.webframework_backend.repository.BoardRepository;
+import com.scw.webframework_backend.repository.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,14 +19,26 @@ import java.util.List;
 @Slf4j
 public class BoardService {
 
+    private final DepartmentRepository departmentRepository;
+
     private final BoardRepository boardRepository;
 
+    public BoardAllDto findBoard(String name) {
 
-    public BoardAllDto findBoard() {
-
-        List<Board> boards = boardRepository.findAll();
-
+        List<Board> boards = null;
         List<Board> boardList = new ArrayList<>();
+        BoardAllDto boardAllDto = null;
+        Department findDepartment;
+
+
+        if (name == null) {
+            boards = boardRepository.findAll();
+            boardAllDto = new BoardAllDto(boardList);
+        } else {
+            findDepartment = departmentRepository.findByDepartmentCode(name).orElse(null);
+            boards = boardRepository.findByDepartmentId(findDepartment.getId());
+            boardAllDto = new BoardAllDto(boardList, findDepartment.getDepartmentName());
+        }
 
         Long i = 0L;
         for (Board board : boards) {
@@ -32,8 +46,8 @@ public class BoardService {
             boardList.add(new Board(i, board.getBoardTitle(), board.getBoardDetail(), board.getRegistrationDate()));
         }
 
-        BoardAllDto boardAllDto = new BoardAllDto(boardList);
 
         return boardAllDto;
     }
+
 }

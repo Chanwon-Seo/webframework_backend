@@ -3,6 +3,7 @@ package com.scw.webframework_backend;
 
 import com.scw.webframework_backend.domain.Board;
 import com.scw.webframework_backend.domain.Department;
+import com.scw.webframework_backend.domain.DepartmentBoard;
 import com.scw.webframework_backend.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -56,13 +57,16 @@ public class initDB {
             Department department22 = new Department("호텔경영학관", "hotel", (byte) 1, "https://hotel.inhatc.ac.kr/sites/hotel/atchmnfl_mngr/imageSlide/106/tp_1630217899025100.jpg");
             Department department23 = new Department("산업디자인학과", "industrydesign", (byte) 1, "https://industrydesign.inhatc.ac.kr/sites/industrydesign/atchmnfl_mngr/imageSlide/109/tp_1630218195213100.jpg");
             Department department24 = new Department("패션디자인학과", "fashion", (byte) 1, "https://fashion.inhatc.ac.kr/sites/fashion/atchmnfl_mngr/imageSlide/112/tp_1630218416058100.jpg");
+            Department department25 = new Department("교무팀", "affairs", (byte) 1, "https://localhost:8080");
+            Department department26 = new Department("학생지원팀", "sst", (byte) 1, "https://localhost:8080");
 
-            save(department1, department2, department3, department4, department5, department6, department7, department8, department9, department10, department11, department12, department13, department14, department15, department16, department17, department18, department19, department20, department21, department22, department23, department24);
+            save(department1, department2, department3, department4, department5, department6, department7, department8, department9, department10, department11, department12, department13, department14, department15, department16, department17, department18, department19, department20, department21, department22, department23, department24,
+                    department25, department26);
 
-            dbInit2(department1);
+            dbInit2(department1, department2, department25, department26);
         }
 
-        public void dbInit2(Department department) {
+        public void dbInit2(Department department1, Department department2, Department department25, Department department26) {
             /**
              * memberStatus :
              * 1. 관리자
@@ -79,11 +83,22 @@ public class initDB {
             LocalDateTime registrationDate = LocalDateTime.of(2023, Month.OCTOBER, 1, 0, 0);
             LocalDateTime modificationDate = LocalDateTime.of(2023, Month.OCTOBER, 1, 0, 0);
 
-            for (int i = 0; i < 200; i++) {
-                String boardTitle = "제목 " + (i + 1);
+            for (int i = 0; i < 100; i++) {
+                String boardTitle = "[교무] 제목 " + (i + 1);
                 String boardDetail = "상세 내용 " + (i + 1);
 
-                Board board = new Board(boardTitle, member1, department, boardDetail, registrationDate, modificationDate);
+                Board board = new Board(boardTitle, member1, department25, boardDetail, registrationDate, modificationDate);
+
+                // 다음 데이터의 등록 및 수정일을 설정
+                registrationDate = registrationDate.plusDays(1);
+                modificationDate = modificationDate.plusDays(1);
+                save(board);
+            }
+            for (int i = 0; i < 100; i++) {
+                String boardTitle = "[장학] 제목 " + (i + 1);
+                String boardDetail = "상세 내용 " + (i + 1);
+
+                Board board = new Board(boardTitle, member1, department26, boardDetail, registrationDate, modificationDate);
 
                 // 다음 데이터의 등록 및 수정일을 설정
                 registrationDate = registrationDate.plusDays(1);
@@ -91,6 +106,28 @@ public class initDB {
                 save(board);
             }
 
+            for (int i = 0; i < 100; i++) {
+                String boardTitle = "[기계공학과] 제목 " + (i + 1);
+                String boardDetail = "상세 내용 " + (i + 1);
+
+                DepartmentBoard DepartmentBoard1 = new DepartmentBoard(boardTitle, member1, department1, boardDetail, registrationDate, modificationDate);
+
+                // 다음 데이터의 등록 및 수정일을 설정
+                registrationDate = registrationDate.plusDays(1);
+                modificationDate = modificationDate.plusDays(1);
+                save(DepartmentBoard1);
+            }
+            for (int i = 101; i < 200; i++) {
+                String boardTitle = "[기계설계공학과] 제목 " + (i + 1);
+                String boardDetail = "상세 내용 " + (i + 1);
+
+                DepartmentBoard DepartmentBoard2 = new DepartmentBoard(boardTitle, member1, department2, boardDetail, registrationDate, modificationDate);
+
+                // 다음 데이터의 등록 및 수정일을 설정
+                registrationDate = registrationDate.plusDays(1);
+                modificationDate = modificationDate.plusDays(1);
+                save(DepartmentBoard2);
+            }
         }
 
         public void save(Object... objects) {

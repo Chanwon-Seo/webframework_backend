@@ -22,7 +22,7 @@ public class Board {
     private Member member;
 
     @Column(name = "department_id")
-    private Integer departmentId;
+    private Long departmentId;
 
     private String boardTitle;
 
@@ -37,7 +37,7 @@ public class Board {
     public Board(String boardTitle, Member member, Department department, String boardDetail, LocalDateTime registrationDate, LocalDateTime modificationDate) {
         this.boardTitle = boardTitle;
         this.member = member;
-        this.departmentId = department.getId().intValue();
+        this.departmentId = department.getId();
         this.boardDetail = boardDetail;
         this.registrationDate = registrationDate;
         this.modificationDate = modificationDate;
