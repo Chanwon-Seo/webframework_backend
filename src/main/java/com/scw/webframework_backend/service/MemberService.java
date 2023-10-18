@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
@@ -18,6 +17,7 @@ import java.util.Objects;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+
 
     public SessionDto login(LoginDto loginDto) {
 
@@ -33,5 +33,4 @@ public class MemberService {
 
         return sessionDto;
     }
-
 }
