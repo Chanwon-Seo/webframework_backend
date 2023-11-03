@@ -1,11 +1,9 @@
 package com.scw.webframework_backend.controller;
 
-import com.scw.webframework_backend.domain.Member;
 import com.scw.webframework_backend.form.DepartmentDto;
 import com.scw.webframework_backend.form.MemberDto;
 import com.scw.webframework_backend.service.DepartmentService;
 import com.scw.webframework_backend.service.MemberService;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

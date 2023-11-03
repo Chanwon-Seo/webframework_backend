@@ -1,11 +1,8 @@
 package com.scw.webframework_backend.service;
 
-import com.scw.webframework_backend.domain.Board;
 import com.scw.webframework_backend.domain.Department;
 import com.scw.webframework_backend.domain.DepartmentBoard;
-import com.scw.webframework_backend.form.BoardAllDto;
 import com.scw.webframework_backend.form.DepartmentBoardDto;
-import com.scw.webframework_backend.repository.BoardRepository;
 import com.scw.webframework_backend.repository.DepartmentBoardRepository;
 import com.scw.webframework_backend.repository.DepartmentRepository;
 import lombok.RequiredArgsConstructor;

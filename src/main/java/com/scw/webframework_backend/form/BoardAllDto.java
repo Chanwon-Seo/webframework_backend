@@ -1,12 +1,8 @@
 package com.scw.webframework_backend.form;
 
 import com.scw.webframework_backend.domain.Board;
-import com.scw.webframework_backend.domain.DepartmentBoard;
-import com.scw.webframework_backend.domain.Member;
 import lombok.Data;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
