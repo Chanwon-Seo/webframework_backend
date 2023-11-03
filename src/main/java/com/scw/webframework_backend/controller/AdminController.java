@@ -1,7 +1,11 @@
 package com.scw.webframework_backend.controller;
 
+import com.scw.webframework_backend.domain.Member;
 import com.scw.webframework_backend.form.DepartmentDto;
+import com.scw.webframework_backend.form.MemberDto;
 import com.scw.webframework_backend.service.DepartmentService;
+import com.scw.webframework_backend.service.MemberService;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     private final DepartmentService departmentService;
+    private final MemberService memberService;
 
     @PostMapping("/department/add")
     public ResponseEntity<String> departmentAdd(@RequestBody DepartmentDto departmentDto) {
@@ -26,5 +31,12 @@ public class AdminController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    
+
+    @PostMapping("/member/add")
+    public ResponseEntity<String> memberAdd(@RequestBody MemberDto memberDto) {
+        memberService.memberAdd(memberDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

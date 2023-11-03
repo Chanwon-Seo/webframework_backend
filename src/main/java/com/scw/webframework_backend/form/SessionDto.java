@@ -14,6 +14,7 @@ public class SessionDto {
     private Boolean loggedIn = false;
     private Byte memberStatus;
 
+
     public SessionDto() {
     }
 
