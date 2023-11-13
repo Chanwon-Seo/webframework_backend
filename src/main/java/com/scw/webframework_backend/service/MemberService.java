@@ -1,15 +1,21 @@
 package com.scw.webframework_backend.service;
 
+import com.scw.webframework_backend.domain.Department;
 import com.scw.webframework_backend.domain.Member;
 import com.scw.webframework_backend.form.LoginDto;
 import com.scw.webframework_backend.form.MemberDto;
+import com.scw.webframework_backend.form.MemberNewDto;
 import com.scw.webframework_backend.form.SessionDto;
+import com.scw.webframework_backend.repository.DepartmentRepository;
 import com.scw.webframework_backend.repository.MemberRepository;
 import com.scw.webframework_backend.repository.dao.MemberFindInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
 
 
 @Service
@@ -19,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final DepartmentRepository departmentRepository;
 
 
     public SessionDto login(LoginDto loginDto) {
@@ -39,8 +46,26 @@ public class MemberService {
     @Transactional
     public void memberAdd(MemberDto memberDto) {
         memberDto.setMemberStatus((byte) 2);
-        Member member = new Member(memberDto.getMemberNumber(), memberDto.getMemberName(), memberDto.getPassword(), memberDto.getMemberStatus());
+        Department department = departmentRepository.findByDepartmentName(memberDto.getDepartmentName()).orElse(null);
+        Member member = new Member(memberDto.getMemberNumber(), memberDto.getFirstSSN(), memberDto.getLastSSN(), memberDto.getMemberName(), memberDto.getPassword(), memberDto.getMemberStatus(), department);
         memberRepository.save(member);
+    }
+
+    @Transactional
+    public void memberAddNew(List<MemberNewDto> memberNewDtos) {
+        LocalDate now = LocalDate.now();
+        String year = String.valueOf(now.getYear());
+
+        for (int i = 0; i < memberNewDtos.size(); i++) {
+            String str = year;
+
+
+            Department department = departmentRepository.findByDepartmentName(memberNewDtos.get(i).getDepartment()).orElse(null);
+            str += department.getDepartmentNumCode();
+            str += String.format("%03d", i);
+            String password = year + memberNewDtos.get(i).getFirstSSN() + String.format("%03d", i);
+            memberRepository.save(new Member(Long.parseLong(str), memberNewDtos.get(i).getFirstSSN(), memberNewDtos.get(i).getLastSSN(), memberNewDtos.get(i).getName(), password, (byte) 3, department));
+        }
     }
 
     public Boolean findMember(Long sessionUser) {

@@ -23,14 +23,17 @@ public class Department {
 
     private String departmentName;
 
+    private String departmentNumCode;
+
     private String departmentCode;
 
     private Byte departmentStatus;
 
     private String departmentImgUrl;
 
-    public Department(String departmentName, String departmentCode, Byte departmentStatus, String departmentImgUrl) {
+    public Department(String departmentName, String departmentNumCode, String departmentCode, Byte departmentStatus, String departmentImgUrl) {
         this.departmentName = departmentName;
+        this.departmentNumCode = departmentNumCode;
         this.departmentCode = departmentCode;
         this.departmentStatus = departmentStatus;
         this.departmentImgUrl = departmentImgUrl;

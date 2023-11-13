@@ -6,6 +6,7 @@ import lombok.Data;
 public class DepartmentDto {
 
     private String departmentName;
+    private String departmentNumCode;
 
     private String departmentCode;
 

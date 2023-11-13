@@ -42,9 +42,20 @@ public class Member {
 
 
     public Member(Long memberNumber, String memberName, String password, Byte memberStatus) {
+
         this.memberNumber = memberNumber;
         this.memberName = memberName;
         this.password = password;
         this.memberStatus = memberStatus;
+    }
+
+    public Member(Long memberNumber, Long firstSSN, Long lastSSN, String memberName, String password, Byte memberStatus, Department department) {
+        this.memberNumber = memberNumber;
+        this.firstSSN = firstSSN;
+        this.lastSSN = lastSSN;
+        this.memberName = memberName;
+        this.password = password;
+        this.memberStatus = memberStatus;
+        this.department = department;
     }
 }
