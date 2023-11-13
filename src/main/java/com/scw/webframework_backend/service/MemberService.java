@@ -30,7 +30,8 @@ public class MemberService {
 
     public SessionDto login(LoginDto loginDto) {
 
-        MemberFindInfo findMember = memberRepository.findByMemberNumber(loginDto.getMemberNumber());
+        MemberFindInfo findMember = memberRepository.findMnAndPwByMemberNumber(loginDto.getMemberNumber());
+        Member findByMember = memberRepository.findByMemberNumber(findMember.getMemberNumber());
 
         if (findMember == null) {
             throw new NullPointerException("아이디를 다시 입력해 주세요");
@@ -38,7 +39,7 @@ public class MemberService {
             throw new NullPointerException("비밀번호를 다시 입력해 주세요");
         }
 
-        SessionDto sessionDto = new SessionDto(findMember.getMemberNumber(), findMember.getMemberName(), findMember.getMemberStatus());
+        SessionDto sessionDto = new SessionDto(findMember.getMemberNumber(), findMember.getMemberName(), findMember.getMemberStatus(), findByMember.getDepartment().getDepartmentCode());
 
         return sessionDto;
     }
@@ -69,7 +70,7 @@ public class MemberService {
     }
 
     public Boolean findMember(Long sessionUser) {
-        MemberFindInfo byMemberNumber = memberRepository.findByMemberNumber(sessionUser);
+        MemberFindInfo byMemberNumber = memberRepository.findMnAndPwByMemberNumber(sessionUser);
 
         if (sessionUser != null && byMemberNumber.getMemberStatus() == 1) {
             log.info("해당 유저는 관리자 입니다.");

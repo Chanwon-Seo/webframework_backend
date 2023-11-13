@@ -2,15 +2,21 @@ package com.scw.webframework_backend.service;
 
 import com.scw.webframework_backend.domain.Department;
 import com.scw.webframework_backend.domain.DepartmentBoard;
+import com.scw.webframework_backend.domain.Member;
 import com.scw.webframework_backend.form.DepartmentBoardDto;
+import com.scw.webframework_backend.form.DepartmentBoardFormDto;
+import com.scw.webframework_backend.form.MemberDto;
+import com.scw.webframework_backend.form.SessionDto;
 import com.scw.webframework_backend.repository.DepartmentBoardRepository;
 import com.scw.webframework_backend.repository.DepartmentRepository;
+import com.scw.webframework_backend.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -22,6 +28,8 @@ public class DepartmentBoardService {
     private final DepartmentRepository departmentRepository;
 
     private final DepartmentBoardRepository departmentBoardRepository;
+
+    private final MemberRepository memberRepository;
 
     public DepartmentBoardDto findBoard(String name) {
 
@@ -49,5 +57,14 @@ public class DepartmentBoardService {
         }
 
         return departmentBoardDto;
+    }
+
+    @Transactional
+    public void join(DepartmentBoardFormDto departmentBoardFormDto, SessionDto sessionDto) {
+
+        Member findByMember = memberRepository.findByMemberNumber(sessionDto.getMemberNumber());
+        Department findDepartment = departmentRepository.findById(findByMember.getDepartment().getId()).orElse(null);
+        DepartmentBoard departmentBoard = new DepartmentBoard(departmentBoardFormDto.getBoardTitle(), findByMember, findDepartment, departmentBoardFormDto.getBoardDetail(), LocalDateTime.now(), LocalDateTime.now());
+        departmentBoardRepository.save(departmentBoard);
     }
 }

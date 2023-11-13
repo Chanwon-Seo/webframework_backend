@@ -2,6 +2,7 @@ package com.scw.webframework_backend.controller;
 
 import com.scw.webframework_backend.form.LoginDto;
 import com.scw.webframework_backend.form.SessionDto;
+import com.scw.webframework_backend.service.DepartmentService;
 import com.scw.webframework_backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 public class MemberController {
 
     private final MemberService memberService;
+    private final DepartmentService departmentService;
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) {
@@ -51,7 +53,7 @@ public class MemberController {
 
     @GetMapping("/api/checkLoginStatus")
     public ResponseEntity<?> checkLoginStatus(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) SessionDto sessionDto) {
-
+        
         // loginDto에 세션에서 바인딩된 값이 저장됨
         if (sessionDto != null) {
             // 사용자가 로그인한 상태이면 true 반환
