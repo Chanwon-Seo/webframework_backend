@@ -19,7 +19,7 @@ public class DepartmentService {
     @Transactional
     public void add(DepartmentDto departmentDto) {
         log.info("반응함add");
-        Department newDepartment = new Department(departmentDto.getDepartmentName(), departmentDto.getDepartmentNumCode(), departmentDto.getDepartmentCode(), (byte) 1, departmentDto.getDepartmentImgUrl());
+        Department newDepartment = new Department(departmentDto.getDepartmentName(), departmentDto.getDepartmentNumCode(), departmentDto.getDepartmentCode(), (byte) 1, departmentDto.getDepartmentImgUrl(), " ");
         departmentRepository.save(newDepartment);
     }
 

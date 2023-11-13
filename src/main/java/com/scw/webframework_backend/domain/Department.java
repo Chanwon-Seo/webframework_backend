@@ -24,6 +24,8 @@ public class Department {
     private String departmentName;
 
     private String departmentNumCode;
+    @Column(columnDefinition = "TEXT")
+    private String departmentDetail;
 
     private String departmentCode;
 
@@ -31,11 +33,13 @@ public class Department {
 
     private String departmentImgUrl;
 
-    public Department(String departmentName, String departmentNumCode, String departmentCode, Byte departmentStatus, String departmentImgUrl) {
+    public Department(String departmentName, String departmentNumCode, String departmentCode, Byte departmentStatus, String departmentImgUrl, String departmentDetail) {
         this.departmentName = departmentName;
         this.departmentNumCode = departmentNumCode;
         this.departmentCode = departmentCode;
         this.departmentStatus = departmentStatus;
         this.departmentImgUrl = departmentImgUrl;
+        this.departmentDetail = departmentDetail;
     }
+
 }

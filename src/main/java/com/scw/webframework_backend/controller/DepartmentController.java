@@ -23,7 +23,7 @@ public class DepartmentController {
 
         Department findDepartment = departmentService.findDepartment(name);
 
-        DepartmentFormDto departmentFormDto = new DepartmentFormDto(findDepartment, "/department/board/list/" + name);
+        DepartmentFormDto departmentFormDto = new DepartmentFormDto(findDepartment, "/department/board/list/" + name, "/department/intro/" + name);
 
         return new ResponseEntity<>(departmentFormDto, HttpStatus.OK);
     }

@@ -2,6 +2,7 @@ package com.scw.webframework_backend.service;
 
 import com.scw.webframework_backend.domain.Board;
 import com.scw.webframework_backend.domain.Department;
+import com.scw.webframework_backend.domain.DepartmentBoard;
 import com.scw.webframework_backend.form.BoardAllDto;
 import com.scw.webframework_backend.repository.BoardRepository;
 import com.scw.webframework_backend.repository.DepartmentRepository;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -39,6 +42,16 @@ public class BoardService {
             boards = boardRepository.findByDepartmentId(findDepartment.getId());
             boardAllDto = new BoardAllDto(boardList, findDepartment.getDepartmentName());
         }
+
+        Collections.sort(boards, new Comparator<Board>() {
+            @Override
+            public int compare(Board t1, Board t2) {
+                if (t1.getRegistrationDate().isAfter(t2.getRegistrationDate())) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
 
         Long i = 0L;
         for (Board board : boards) {

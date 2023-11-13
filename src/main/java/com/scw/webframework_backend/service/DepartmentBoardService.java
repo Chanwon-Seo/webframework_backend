@@ -7,11 +7,11 @@ import com.scw.webframework_backend.repository.DepartmentBoardRepository;
 import com.scw.webframework_backend.repository.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,9 +29,18 @@ public class DepartmentBoardService {
 
         List<DepartmentBoard> boards = departmentBoardRepository.findByDepartmentId(findDepartment.getId());
 
+        Collections.sort(boards, new Comparator<DepartmentBoard>() {
+            @Override
+            public int compare(DepartmentBoard t1, DepartmentBoard t2) {
+                if (t1.getRegistrationDate().isAfter(t2.getRegistrationDate())) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
+
         List<DepartmentBoard> boardList = new ArrayList<>();
         DepartmentBoardDto departmentBoardDto = new DepartmentBoardDto(boardList, findDepartment.getDepartmentName());
-
 
         Long i = 0L;
         for (DepartmentBoard board : boards) {
