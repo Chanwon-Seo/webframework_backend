@@ -2,10 +2,7 @@ package com.scw.webframework_backend.service;
 
 import com.scw.webframework_backend.domain.Department;
 import com.scw.webframework_backend.domain.Member;
-import com.scw.webframework_backend.form.LoginDto;
-import com.scw.webframework_backend.form.MemberDto;
-import com.scw.webframework_backend.form.MemberNewDto;
-import com.scw.webframework_backend.form.SessionDto;
+import com.scw.webframework_backend.form.*;
 import com.scw.webframework_backend.repository.DepartmentRepository;
 import com.scw.webframework_backend.repository.MemberRepository;
 import com.scw.webframework_backend.repository.dao.MemberFindInfo;
@@ -15,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -70,18 +67,6 @@ public class MemberService {
         }
     }
 
-    public Boolean findMember(Long sessionUser) {
-        MemberFindInfo byMemberNumber = memberRepository.findMnAndPwByMemberNumber(sessionUser);
-
-        if (sessionUser != null && byMemberNumber.getMemberStatus() == 1) {
-            log.info("해당 유저는 관리자 입니다.");
-            return true;
-
-        }
-
-        return false;
-    }
-
     public MemberDto memberFind(Long memberNumber) {
 
         Member findMember = memberRepository.findByMemberNumber(memberNumber);
@@ -98,4 +83,24 @@ public class MemberService {
             return memberDto;
         }
     }
+
+    public MemberStatusDto findAllMember() {
+        Map<String, Integer> map = new TreeMap<>();
+
+        List<Member> all = memberRepository.findAll();
+
+        for (Member member : all) {
+            String yearMemberNumber = String.valueOf(member.getMemberNumber()).substring(0, 4);
+            map.put(yearMemberNumber, map.getOrDefault(yearMemberNumber, 0) + 1);
+        }
+
+        MemberStatusDto memberStatusDto = new MemberStatusDto();
+        memberStatusDto.setLabels(new ArrayList<>(map.keySet()));
+        memberStatusDto.setData(new ArrayList<>(map.values()));
+
+
+        return memberStatusDto;
+    }
+
+
 }

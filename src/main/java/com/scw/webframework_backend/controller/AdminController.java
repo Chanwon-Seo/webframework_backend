@@ -3,6 +3,7 @@ package com.scw.webframework_backend.controller;
 import com.scw.webframework_backend.form.DepartmentDto;
 import com.scw.webframework_backend.form.MemberDto;
 import com.scw.webframework_backend.form.MemberNewDto;
+import com.scw.webframework_backend.form.MemberStatusDto;
 import com.scw.webframework_backend.service.DepartmentService;
 import com.scw.webframework_backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/admin")
@@ -48,6 +50,13 @@ public class AdminController {
         MemberDto findMember = memberService.memberFind(memberDto.getMemberNumber());
 
         return new ResponseEntity<>(findMember, HttpStatus.OK);
+    }
+
+    @PostMapping("/member/status")
+    public ResponseEntity<?> memberStatus() {
+        MemberStatusDto findMemberStatus = memberService.findAllMember();
+
+        return new ResponseEntity<>(findMemberStatus, HttpStatus.OK);
     }
 
 }
