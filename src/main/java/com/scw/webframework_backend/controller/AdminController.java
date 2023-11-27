@@ -24,7 +24,6 @@ public class AdminController {
 
     @PostMapping("/department/add")
     public ResponseEntity<String> departmentAdd(@RequestBody DepartmentDto departmentDto) {
-        log.info("반응함");
         departmentService.add(departmentDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -43,4 +42,12 @@ public class AdminController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/member/find")
+    public ResponseEntity<?> memberFind(@RequestBody MemberDto memberDto) {
+        MemberDto findMember = memberService.memberFind(memberDto.getMemberNumber());
+
+        return new ResponseEntity<>(findMember, HttpStatus.OK);
+    }
+
 }

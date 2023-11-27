@@ -31,11 +31,12 @@ public class MemberService {
     public SessionDto login(LoginDto loginDto) {
 
         MemberFindInfo findMember = memberRepository.findMnAndPwByMemberNumber(loginDto.getMemberNumber());
-        Member findByMember = memberRepository.findByMemberNumber(findMember.getMemberNumber());
 
         if (findMember == null) {
-            throw new NullPointerException("아이디를 다시 입력해 주세요");
-        } else if (!findMember.getPassword().equals(loginDto.getPassword())) {
+            throw new NullPointerException("존재하지 않는 아이디입니다.");
+        }
+        Member findByMember = memberRepository.findByMemberNumber(findMember.getMemberNumber());
+        if (!findMember.getPassword().equals(loginDto.getPassword())) {
             throw new NullPointerException("비밀번호를 다시 입력해 주세요");
         }
 
@@ -79,5 +80,22 @@ public class MemberService {
         }
 
         return false;
+    }
+
+    public MemberDto memberFind(Long memberNumber) {
+
+        Member findMember = memberRepository.findByMemberNumber(memberNumber);
+
+        if (findMember == null) {
+            throw new NullPointerException("존재하지 않는 아이디입니다.");
+        } else {
+            MemberDto memberDto = new MemberDto();
+            memberDto.setMemberName(findMember.getMemberName());
+            memberDto.setMemberNumber(findMember.getMemberNumber());
+            memberDto.setDepartmentName(findMember.getDepartment().getDepartmentName());
+            memberDto.setFirstSSN(findMember.getFirstSSN());
+            memberDto.setLastSSN(findMember.getLastSSN());
+            return memberDto;
+        }
     }
 }
