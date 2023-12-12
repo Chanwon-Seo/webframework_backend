@@ -24,7 +24,6 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDto loginDto, HttpServletRequest httpServletRequest) {
 
-
         SessionDto findMember = memberService.login(loginDto);
         findMember.setLoggedIn(true);
 

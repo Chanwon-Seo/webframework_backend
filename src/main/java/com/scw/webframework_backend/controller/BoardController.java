@@ -20,6 +20,7 @@ public class BoardController {
 
     @GetMapping(value = {"/board/list/{name}", "/board/list"})
     public ResponseEntity<?> boardFindAll(@PathVariable(required = false) String name) {
+        System.out.println("접근함");
 
         BoardAllDto board = boardService.findBoard(name);
 
